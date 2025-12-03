@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de Inventario - INVECEM</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: url('https://i.ibb.co/6tqz8ZT/cemento-bg.jpg') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 700px;
+        margin: 50px auto;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+        text-align: center;
+        color: #2E3A59;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #2E3A59;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: #007BFF;
+        box-shadow: 0 0 5px rgba(0,123,255,0.5);
+        outline: none;
+    }
+
+    button {
+        background-color: #007BFF;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .card {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .preview {
+        background: #eef2f7;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Registro de Inventario</h1>
+    <form id="inventarioForm">
+        <div class="card">
+            <div class="form-group">
+                <label for="tipo">Tipo de equipo</label>
+                <select id="tipo" name="tipo" required>
+                    <option value="">Selecciona</option>
+                    <option value="PC">PC</option>
+                    <option value="Laptop">Laptop</option>
+                    <option value="Impresora">Impresora</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="marca">Marca</label>
+                <input type="text" id="marca" name="marca" placeholder="Ej. HP, Dell" required>
+            </div>
+
+            <div class="form-group">
+                <label for="modelo">Modelo</label>
+                <input type="text" id="modelo" name="modelo" placeholder="Ej. ProDesk 400 G7" required>
+            </div>
+
+            <div class="form-group">
+                <label for="serial">Número de serie</label>
+                <input type="text" id="serial" name="serial" placeholder="Ej. SN123456" required>
+            </div>
+
+            <!-- Campos condicionales -->
+            <div id="pcFields" class="hidden">
+                <div class="form-group">
+                    <label for="cpu">CPU</label>
+                    <input type="text" id="cpu" name="cpu" placeholder="Ej. Intel i5">
+                </div>
+                <div class="form-group">
+                    <label for="ram">RAM</label>
+                    <input type="text" id="ram" name="ram" placeholder="Ej. 16GB">
+                </div>
+            </div>
+
+            <div id="impresoraFields" class="hidden">
+                <div class="form-group">
+                    <label for="tipo_impresion">Tipo de impresión</label>
+                    <input type="text" id="tipo_impresion" name="tipo_impresion" placeholder="Ej. Láser, Inyección">
+                </div>
+            </div>
+
+            <button type="submit">Registrar equipo</button>
+        </div>
+    </form>
+
+    <div class="preview" id="preview">
+        <h3>Vista previa:</h3>
+        <pre id="previewContent">Ningún dato ingresado aún.</pre>
+    </div>
+</div>
+
+<script>
+    const tipoSelect = document.getElementById('tipo');
+    const pcFields = document.getElementById('pcFields');
+    const impresoraFields = document.getElementById('impresoraFields');
+    const form = document.getElementById('inventarioForm');
+    const previewContent = document.getElementById('previewContent');
+
+    tipoSelect.addEventListener('change', () => {
+        pcFields.classList.add('hidden');
+        impresoraFields.classList.add('hidden');
+
+        if(tipoSelect.value === 'PC' || tipoSelect.value === 'Laptop') {
+            pcFields.classList.remove('hidden');
+        } else if(tipoSelect.value === 'Impresora') {
+            impresoraFields.classList.remove('hidden');
+        }
+    });
+
+    form.addEventListener('input', () => {
+        const formData = new FormData(form);
+        const obj = {};
+        formData.forEach((value, key) => {
+            obj[key] = value;
+        });
+        previewContent.textContent = JSON.stringify(obj, null, 2);
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('¡Equipo registrado exitosamente!');
+        form.reset();
+        pcFields.classList.add('hidden');
+        impresoraFields.classList.add('hidden');
+        previewContent.textContent = 'Ningún dato ingresado aún.';
+        // Aquí puedes agregar tu fetch/axios para enviar al backend
+        fetch('/api/inventario/registrar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(obj)
+})
+.then(res => res.json())
+.then(data => console.log(data))
+.catch(err => console.error(err));
+
+    });
+</script>
+
+</body>
+</html>
