@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - Sistema Inventario INVECEM</title>
+    <link rel="stylesheet" href="admin.css">
+<style>
 /* Reset */
 * {
     margin: 0;
@@ -10,8 +18,9 @@
 body {
     display: flex;
     height: 100vh;
-    background: #f4f6f9;
+    background-color: #f0f2f5; /* color de fondo neutro si la imagen no cubre todo */
 }
+
 
 /* Sidebar */
 .sidebar {
@@ -136,3 +145,40 @@ form select:focus {
     margin-top: 15px;
     font-weight: bold;
 }
+</style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>INVECEM</h2>
+        </div>
+
+       <ul class="menu">
+    <li class="active" onclick="window.location.href='dashboard.html'">📊 Estadisticas</li>
+    <li onclick="window.location.href='registro.html'">📝 Registro</li>
+    <li onclick="window.location.href='inventario.html'">📦 Inventario</li>
+    <li onclick="window.location.href='usuarios.html'">👥 Usuarios</li>
+    <li class="logout" onclick="cerrarSesion()">🔒 Cerrar sesión</li>
+</ul>
+
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main">
+        <header class="topbar">
+            <h1 id="tituloModulo">Inicio</h1>
+        </header>
+
+        <section id="contenido">
+            <!-- Aquí se cargan los módulos dinámicamente -->
+            <h2>Bienvenido Administrador</h2>
+            <p>Seleccione una opción del menú para comenzar.</p>
+        </section>
+    </main>
+
+    <script src="registro.js"></script>
+</body>
+</html>

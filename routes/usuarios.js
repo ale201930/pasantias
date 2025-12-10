@@ -1,28 +1,31 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user");
-const bcrypt = require("bcrypt");
+const Usuario = require("../models/user");
 
 // Crear usuario
 router.post("/crear", async (req, res) => {
     try {
-        const { nombre, usuario, password, rol } = req.body;
-
-        const hashed = await bcrypt.hash(password, 10);
-
-        const nuevo = await User.create({
-            nombre,
-            usuario,
-            password: hashed,
-            rol,
-            activo: 1,
-        });
-
-        res.json({ ok: true, mensaje: "Usuario creado", usuario: nuevo });
+        const datos = req.body;
+        await Usuario.create(datos);
+        res.json({ ok: true });
     } catch (error) {
-        res.status(500).json({ ok: false, error: "Error al crear usuario" });
+        console.error(error);
+        res.json({ ok: false, error: error.message });
     }
 });
+
+// Obtener todos los usuarios
+router.get("/", async (req, res) => {
+    try {
+        const usuarios = await Usuario.findAll();
+        res.json({ ok: true, usuarios });
+    } catch (error) {
+        res.json({ ok: false, error: error.message });
+    }
+});
+
+
+
 
 // Listar usuarios
 router.get("/listar", async (req, res) => {

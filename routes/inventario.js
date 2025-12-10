@@ -1,140 +1,50 @@
 const express = require("express");
 const router = express.Router();
-const Inventario = require("../models/Inventario");
-const { Op } = require("sequelize"); // IMPORTANTE
+const Inventario = require("../models/inventario");
 
-//------------------------------------------
-// REGISTRAR UN ARTÍCULO
-//------------------------------------------
+// POST /api/inventario/registrar
 router.post("/registrar", async (req, res) => {
     try {
-        const { localidad, tipo_articulo } = req.body;
+        const datos = req.body;
 
-        // Validación obligatoria
-        if (!localidad || !tipo_articulo) {
-            return res.json({
-                ok: false,
-                error: "Debe llenar al menos Localidad y Tipo de artículo."
-            });
-        }
-
-        const nuevoEquipo = await Inventario.create(req.body);
-
-        res.json({
-            ok: true,
-            mensaje: "Equipo registrado exitosamente.",
-            data: nuevoEquipo
+        await Inventario.create({
+            localidad: datos.localidad,
+            tipo_articulo: datos.tipo_articulo,
+            marca: datos.marca || datos.Marca,
+            modelo: datos.modelo || datos.Modelo,
+            serial: datos.serial || datos.Serial,
+            procesador: datos.procesador,
+            ram: datos.ram,
+            disco: datos.disco,
+            version_windows: datos.version_windows,
+            antivirus: datos.antivirus,
+            nombre_del_equipo: datos.Nombre_del_Equipo,
+            ubicacion: datos.Ubicacion,
+            usuario_responsable: datos.usuario_responsable || datos.Usuario_Responsable,
+            ip: datos.ip || datos.IP,
+            bios: datos.Bios,
+            fecha_de_asignacion: datos.Fecha_de_Asignacion,
+            status: datos.Status
         });
 
+        res.json({ ok: true });
     } catch (error) {
-        console.error("Error al registrar:", error);
-        res.status(500).json({
-            ok: false,
-            error: "Error al registrar equipo."
-        });
+        console.error(error);
+        res.json({ ok: false, error: error.message });
     }
 });
 
-//------------------------------------------
-// LISTAR INVENTARIO COMPLETO
-//------------------------------------------
-router.get("/listar", async (req, res) => {
+// GET /api/inventario
+router.get("/", async (req, res) => {
     try {
-        const datos = await Inventario.findAll({
+        const equipos = await Inventario.findAll({
             order: [["id", "DESC"]]
         });
 
-        res.json({
-            ok: true,
-            data: datos
-        });
-
+        res.json({ ok: true, equipos });
     } catch (error) {
-        console.error("Error al listar:", error);
-        res.status(500).json({
-            ok: false,
-            error: "Error al obtener inventario."
-        });
-    }
-});
-
-//------------------------------------------
-// BUSCADOR / FILTROS
-//------------------------------------------
-router.get("/buscar", async (req, res) => {
-    const { query } = req.query;
-
-    try {
-        const resultados = await Inventario.findAll({
-            where: {
-                [Op.or]: [
-                    { serial: { [Op.like]: `%${query}%` } },
-                    { marca: { [Op.like]: `%${query}%` } },
-                    { modelo: { [Op.like]: `%${query}%` } },
-                    { ip: { [Op.like]: `%${query}%` } },
-                    { nombre_equipo: { [Op.like]: `%${query}%` } },
-                    { usuario_responsable: { [Op.like]: `%${query}%` } }
-                ]
-            }
-        });
-
-        res.json({
-            ok: true,
-            data: resultados
-        });
-
-    } catch (error) {
-        console.error("Error en buscador:", error);
-        res.status(500).json({
-            ok: false,
-            error: "Error en buscador."
-        });
-    }
-});
-
-//------------------------------------------
-// EDITAR REGISTRO
-//------------------------------------------
-router.put("/editar/:id", async (req, res) => {
-    try {
-        await Inventario.update(req.body, {
-            where: { id: req.params.id }
-        });
-
-        res.json({
-            ok: true,
-            mensaje: "Registro actualizado."
-        });
-
-    } catch (error) {
-        console.error("Error al editar:", error);
-        res.status(500).json({
-            ok: false,
-            error: "Error al editar inventario."
-        });
-    }
-});
-
-//------------------------------------------
-// ELIMINAR REGISTRO
-//------------------------------------------
-router.delete("/eliminar/:id", async (req, res) => {
-    try {
-        await Inventario.destroy({
-            where: { id: req.params.id }
-        });
-
-        res.json({
-            ok: true,
-            mensaje: "Equipo eliminado."
-        });
-
-    } catch (error) {
-        console.error("Error al eliminar:", error);
-        res.status(500).json({
-            ok: false,
-            error: "Error al eliminar."
-        });
+        console.error(error);
+        res.status(500).json({ ok: false, error: error.message });
     }
 });
 

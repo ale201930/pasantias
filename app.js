@@ -1,19 +1,42 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const path = require('path');
+const path = require("path");
 
-// Servir archivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
+// BD
+const sequelize = require("./config/database");
 
-// Para recibir datos JSON del formulario
+// Modelos (importan las tablas y las registra Sequelize)
+require("./models/inventario");
+require("./models/user");
+
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Rutas
-const inventarioRoutes = require('./routes/inventario');
-app.use('/api/inventario', inventarioRoutes);
+const inventarioRoutes = require("./routes/inventario");
+app.use("/api/inventario", inventarioRoutes);
 
-app.listen(3000, () => console.log('Servidor corriendo en http://localhost:3000'));
+const usuarioRoutes = require("./routes/usuarios");
+app.use("/api/usuarios", usuarioRoutes);
+
+// Página inicial
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "login.html"));
+});
+
+// Sincronizar tablas
+sequelize.sync()
+    .then(() => console.log("Base de datos sincronizada: Inventario + Usuarios"))
+    .catch(err => console.error(err));
+
+// Iniciar servidor
+app.listen(3000, () => {
+    console.log("Servidor corriendo en http://localhost:3000");
+});
+
+
 
 
 

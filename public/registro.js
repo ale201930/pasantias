@@ -20,8 +20,14 @@ function cargarModulo(nombre) {
                 <label>Localidad:</label>
                 <select name="localidad" required>
                     <option value="">Seleccione</option>
-                    <option>San Sebastián – Planta INVCEM</option>
-                    <option>Oficinas – Caracas</option>
+                    <option>Senderos/Distrito Capital</option>
+                    <option>Planta Cumarebo</option>
+                    <option>Planta San Sebastian</option>
+                    <option>Planta Magdaleno</option>
+                    <option>Planta Maracay</option>
+                    <option>Planta Tachira</option>
+                    
+                    
                 </select>
 
                 <label>Tipo de artículo:</label>
@@ -31,8 +37,13 @@ function cargarModulo(nombre) {
                     <option value="Laptop">Laptop</option>
                     <option value="Monitor">Monitor</option>
                     <option value="Impresora">Impresora</option>
-                    <option value="Red">Equipos de Red</option>
-                    <option value="Otro">Otro</option>
+                    <option value="Switch">Switch</option>
+                    <option value="Router">Router</option>
+                    <option value="Ap">Ap</option>
+                    <option value="Radios">Radio</option>
+                    <option value="Escaner">Escaner</option>
+                    <option value="Starlink">Starlink</option>
+                    <option value="UPS">UPS</option>
                 </select>
 
                 <div id="camposExtra"></div>
@@ -93,18 +104,33 @@ function mostrarCampos() {
             <label>Antivirus:</label>
             <input name="antivirus">
 
+            <label>Nombre del Equipo:</label>
+            <input name="Nombre_del_Equipo">
+
+            <label>Ubicacion:</label>
+            <input name="Ubicacion">
+
+            <label>C.DPR:</label>
+            <input name="DPR">
+
             <label>Usuario responsable:</label>
             <input name="usuario_responsable">
 
             <label>IP:</label>
             <input name="ip">
 
-            <label>MAC:</label>
-            <input name="mac">
+            <label>C.Bios:</label>
+            <input name="Bios">
+
+            <label>Fecha de Asignacion:</label>
+            <input name="Fecha_de_Asignacion">
+
+            <label>Status:</label>
+            <input name="Status">
         `;
     }
 
-    if (tipo === "Monitor") {
+    if (tipo === "Monitor"|| tipo === "Impresora"|| tipo === "Switch"|| tipo === "Escaner"|| tipo === "Starlink"|| tipo === "UPS")    {
         campos = `
             <label>Marca:</label>
             <input name="marca" required>
@@ -114,41 +140,51 @@ function mostrarCampos() {
 
             <label>Serial:</label>
             <input name="serial" required>
+
+            <label>Ubicacion:</label>
+            <input name="Ubicacion" required>
+
+            <label>Usuario Responsable:</label>
+            <input name="Usuario_Responsable" required>
+
+            <label>Fecha de Asignacion:</label>
+            <input name="Fecha_de_Asignacion" required>
+
+            <label>Status:</label>
+            <input name="Status" required>
         `;
     }
 
-    if (tipo === "Impresora") {
+   
+
+    if (tipo === "Router"|| tipo === "Ap"|| tipo === "Radios") {
         campos = `
             <label>Marca:</label>
-            <input name="marca" required>
+            <input name="Marca">
 
             <label>Modelo:</label>
-            <input name="modelo" required>
+            <input name="Modelo">
 
-            <label>Tipo de Impresión:</label>
-            <input name="impresion" placeholder="Laser / Tinta / Térmica">
-        `;
-    }
+            <label>Serial:</label>
+            <input name="Serial">
 
-    if (tipo === "Red") {
-        campos = `
-            <label>Tipo de equipo:</label>
-            <input name="modelo" placeholder="Switch / Router / Access Point" required>
+            <label>Ubicacion:</label>
+            <input name="Ubicacion">
+
+            <label>Status:</label>
+            <input name="Status">
+
+            <label>IP:</label>
+            <input name="IP">
 
             <label>MAC:</label>
             <input name="mac">
 
-            <label>IP:</label>
-            <input name="ip">
+
         `;
     }
 
-    if (tipo === "Otro") {
-        campos = `
-            <label>Descripción del artículo:</label>
-            <input name="modelo">
-        `;
-    }
+   
 
     extra.innerHTML = campos;
 }
@@ -180,4 +216,3 @@ document.addEventListener("submit", async (e) => {
         msg.textContent = "Error: " + data.error;
     }
 });
-

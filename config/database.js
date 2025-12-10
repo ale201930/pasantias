@@ -1,9 +1,16 @@
 const { Sequelize } = require("sequelize");
+const path = require("path");
 
+// Conexión SQLite
 const sequelize = new Sequelize({
     dialect: "sqlite",
-    storage: "./inventario.sqlite", // aquí se guarda tu base de datos
+    storage: path.join(__dirname, "../database.sqlite"), // archivo SQLite en la raíz
     logging: false
 });
 
 module.exports = sequelize;
+
+
+
+
+

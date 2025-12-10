@@ -1,33 +1,34 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const { Usuario } = require("../db/models");
+require("dotenv").config();
 
-router.post("/", async (req, res) => {
+const USERS = {
+    administrador: process.env.ADMIN_PASS,
+    coordinador: process.env.COORD_PASS,
+    gerente: process.env.GERENTE_PASS
+};
+
+router.post("/", (req, res) => {
     const { usuario, password } = req.body;
 
-    const user = await Usuario.findOne({ where: { usuario } });
-
-    if (!user) {
-        return res.json({ error: "Usuario no encontrado" });
+    if (!USERS[usuario]) {
+        return res.json({ ok: false, mensaje: "Usuario no encontrado" });
     }
 
-    if (!user.activo) {
-        return res.json({ error: "Usuario inactivo" });
+    if (USERS[usuario] !== password) {
+        return res.json({ ok: false, mensaje: "Contraseña incorrecta" });
     }
 
-    const coincide = await bcrypt.compare(password, user.password);
-
-    if (!coincide) {
-        return res.json({ error: "Contraseña incorrecta" });
-    }
-
-    // Retorna el rol para redirigir al módulo correcto
-    res.json({
+    return res.json({
         ok: true,
-        rol: user.rol,
-        nombre: user.nombre
+        rol: usuario
     });
 });
 
 module.exports = router;
+
+
+
+
+
+

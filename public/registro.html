@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Equipos - INVECEM</title>
+    <style>
+        /* Reset y base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background: #f0f2f5;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #1b263b;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h2 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-left: 4px solid transparent;
+            transition: 0.3s;
+        }
+
+        .menu li:hover,
+        .menu .active {
+            background: #415a77;
+            border-left: 4px solid #e0e1dd;
+        }
+
+        .logout {
+            margin-top: auto;
+            background: #a4161a !important;
+            border-left: 4px solid #fff !important;
+        }
+
+        /* Contenido principal */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* Top bar */
+        .topbar {
+            background: #e0e1dd;
+            padding: 20px;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .topbar h1 {
+            font-size: 22px;
+        }
+
+        /* Contenido dinámico */
+        #contenido {
+            padding: 30px;
+        }
+
+        /* Tarjeta del formulario */
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px #ccc;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            color: #1b263b;
+            text-align: center;
+        }
+
+        form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #1b263b;
+        }
+
+        form input,
+        form select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #aaa;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        form input:focus,
+        form select:focus {
+            outline: none;
+            border-color: #415a77;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            background: #1b263b;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #415a77;
+        }
+
+        #msgRegistro {
+            margin-top: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Campos extra dinámicos */
+        #camposExtra label { margin-top: 10px; }
+        #camposExtra input { margin-bottom: 5px; }
+
+        /* Responsivo */
+        @media(max-width: 600px) {
+            .card { padding: 20px; }
+            .sidebar { width: 200px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>INVECEM</h2>
+        </div>
+        <ul class="menu">
+            <li onclick="window.location.href='dashboard.html'">📊 Estadisticas</li>
+            <li class="active" onclick="window.location.href='registro.html'">📝 Registro</li>
+            <li onclick="window.location.href='inventario.html'">📦 Inventario</li>
+            <li onclick="window.location.href='usuarios.html'">👥 Usuarios</li>
+            <li class="logout" onclick="cerrarSesion()">🔒 Cerrar sesión</li>
+        </ul>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main">
+        <header class="topbar">
+            <h1 id="tituloModulo">Registro de Equipos</h1>
+        </header>
+
+        <section id="contenido">
+            <div class="card">
+                <h2>Formulario de Registro</h2>
+
+                <form id="formRegistro">
+                    <label>Localidad:</label>
+                    <select name="localidad" required>
+                        <option value="">Seleccione</option>
+                        <option>Senderos/Distrito Capital</option>
+                        <option>Planta Cumarebo</option>
+                        <option>Planta San Sebastian</option>
+                        <option>Planta Magdaleno</option>
+                        <option>Planta Maracay</option>
+                        <option>Planta Tachira</option>
+                    </select>
+
+                    <label>Tipo de artículo:</label>
+                    <select name="tipo_articulo" id="tipoArticulo" required onchange="mostrarCampos()">
+                        <option value="">Seleccione</option>
+                        <option value="PC">Computador de Escritorio</option>
+                        <option value="Laptop">Laptop</option>
+                        <option value="Monitor">Monitor</option>
+                        <option value="Impresora">Impresora</option>
+                        <option value="Switch">Switch</option>
+                        <option value="Router">Router</option>
+                        <option value="Ap">Ap</option>
+                        <option value="Radios">Radio</option>
+                        <option value="Escaner">Escaner</option>
+                        <option value="Starlink">Starlink</option>
+                        <option value="UPS">UPS</option>
+                    </select>
+
+                    <div id="camposExtra"></div>
+
+                    <button type="submit" class="btn">Guardar Artículo</button>
+                </form>
+
+                <p id="msgRegistro"></p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function mostrarCampos() {
+            const tipo = document.getElementById("tipoArticulo").value;
+            const extra = document.getElementById("camposExtra");
+            let campos = "";
+
+            if (tipo === "PC" || tipo === "Laptop") {
+                campos = `
+                    <label>Marca:</label><input name="marca" required>
+                    <label>Modelo:</label><input name="modelo" required>
+                    <label>Serial:</label><input name="serial" required>
+                    <label>Procesador:</label><input name="procesador">
+                    <label>RAM:</label><input name="ram">
+                    <label>Disco duro:</label><input name="disco">
+                    <label>Versión Windows:</label><input name="version_windows">
+                    <label>Antivirus:</label><input name="antivirus">
+                    <label>Nombre del Equipo:</label><input name="Nombre_del_Equipo">
+                    <label>Ubicacion:</label><input name="Ubicacion">
+                    <label>C.DPR:</label><input name="DPR">
+                    <label>Usuario responsable:</label><input name="usuario_responsable">
+                    <label>IP:</label><input name="ip">
+                    <label>C.Bios:</label><input name="Bios">
+                    <label>Fecha de Asignacion:</label><input name="Fecha_de_Asignacion">
+                    <label>Status:</label><input name="Status">
+                `;
+            }
+
+            if (tipo === "Monitor"|| tipo === "Impresora"|| tipo === "Switch"|| tipo === "Escaner"|| tipo === "Starlink"|| tipo === "UPS") {
+                campos = `
+                    <label>Marca:</label><input name="marca" required>
+                    <label>Modelo:</label><input name="modelo" required>
+                    <label>Serial:</label><input name="serial" required>
+                    <label>Ubicacion:</label><input name="Ubicacion" required>
+                    <label>Usuario Responsable:</label><input name="Usuario_Responsable" required>
+                    <label>Fecha de Asignacion:</label><input name="Fecha_de_Asignacion" required>
+                    <label>Status:</label><input name="Status" required>
+                `;
+            }
+
+            if (tipo === "Router"|| tipo === "Ap"|| tipo === "Radios") {
+                campos = `
+                    <label>Marca:</label><input name="Marca">
+                    <label>Modelo:</label><input name="Modelo">
+                    <label>Serial:</label><input name="Serial">
+                    <label>Ubicacion:</label><input name="Ubicacion">
+                    <label>Status:</label><input name="Status">
+                    <label>IP:</label><input name="IP">
+                    <label>MAC:</label><input name="mac">
+                `;
+            }
+
+            extra.innerHTML = campos;
+        }
+
+        document.addEventListener("submit", async (e) => {
+            if (e.target.id !== "formRegistro") return;
+            e.preventDefault();
+
+            const form = new FormData(e.target);
+            const datos = Object.fromEntries(form.entries());
+
+            const res = await fetch("/api/inventario/registrar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(datos)
+            });
+
+            const data = await res.json();
+            const msg = document.getElementById("msgRegistro");
+
+            if (data.ok) {
+                msg.style.color = "green";
+                msg.textContent = "Artículo registrado correctamente ✔️";
+                e.target.reset();
+                document.getElementById("camposExtra").innerHTML = "";
+            } else {
+                msg.style.color = "red";
+                msg.textContent = "Error: " + data.error;
+            }
+        });
+    </script>
+</body>
+</html>
