@@ -5,7 +5,6 @@
     <title>Login | Sistema de Inventario INVECEM</title>
 
     <style>
-        /* Fondo con imagen */
         body {
             margin: 0;
             padding: 0;
@@ -17,7 +16,6 @@
             align-items: center;
         }
 
-        /* Oscurecer un poco el fondo */
         .overlay {
             position: absolute;
             top: 0;
@@ -27,7 +25,6 @@
             background: rgba(0,0,0,0.45);
         }
 
-        /* Tarjeta de login */
         .login-box {
             position: relative;
             z-index: 10;
@@ -42,7 +39,6 @@
             animation: fadeIn 1.2s ease;
         }
 
-        /* Animación suave */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -146,11 +142,11 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         return;
     }
 
-    // Guardamos el rol en localStorage
+    // Guardar rol
     localStorage.setItem("rol", data.rol);
 
-    // 🔥 REDIRECCIÓN SEGÚN ROL (CORREGIDA)
-    if (data.rol === "administrador") {
+    // 🔥 COINCIDE CON TU BACKEND (admin, coordinador, gerente)
+    if (data.rol === "admin") {
         window.location.href = "/admin.html";
     } 
     else if (data.rol === "coordinador") {
@@ -165,7 +161,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 });
 </script>
 
-
 </body>
 </html>
+
 
