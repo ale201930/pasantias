@@ -5,90 +5,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inventario - INVECEM</title>
 <style>
-    /* Reset y base */
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { display: flex; height: 100vh; background: #f0f2f5; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
+body { display:flex; height:100vh; background:#f0f2f5; }
 
-    /* Sidebar */
-    .sidebar {
-        width: 250px;
-        background: #1b263b;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        padding: 20px 0;
-    }
+.sidebar {
+    width:250px; background:#1b263b; color:#fff; display:flex; flex-direction:column; padding:20px 0;
+}
+.logo { text-align:center; margin-bottom:30px; }
+.logo h2 { font-size:24px; font-weight:bold; }
+.menu { list-style:none; }
+.menu li { padding:15px 20px; cursor:pointer; font-size:16px; border-left:4px solid transparent; transition:0.3s; }
+.menu li:hover, .menu .active { background:#415a77; border-left:4px solid #e0e1dd; }
+.logout { margin-top:auto; background:#a4161a !important; border-left:4px solid #fff !important; }
 
-    .logo { text-align: center; margin-bottom: 30px; }
-    .logo h2 { font-size: 24px; font-weight: bold; }
+.main { flex:1; display:flex; flex-direction:column; overflow-y:auto; }
+.topbar { background:#e0e1dd; padding:20px; border-bottom:2px solid #ccc; }
+.topbar h1 { font-size:22px; }
 
-    .menu { list-style: none; }
-    .menu li { padding: 15px 20px; cursor: pointer; font-size: 16px; border-left: 4px solid transparent; transition: 0.3s; }
-    .menu li:hover, .menu .active { background: #415a77; border-left: 4px solid #e0e1dd; }
-    .logout { margin-top: auto; background: #a4161a !important; border-left: 4px solid #fff !important; }
+#contenido { padding:30px; }
 
-    /* Contenido principal */
-    .main { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
-    .topbar { background: #e0e1dd; padding: 20px; border-bottom: 2px solid #ccc; }
-    .topbar h1 { font-size: 22px; }
+.card { background:#fff; padding:25px; border-radius:12px; box-shadow:0 2px 10px #ccc; max-width:1000px; margin:0 auto; }
+.card h2 { margin-bottom:20px; color:#1b263b; text-align:center; }
 
-    #contenido { padding: 30px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; }
+table th, table td { border:1px solid #ddd; padding:10px; text-align:left; }
+table th { background:#1b263b; color:white; }
+tr:nth-child(even) { background-color:#f2f2f2; }
+tr:hover { background-color:#e0e1dd; }
 
-    /* Tabla de inventario */
-    .card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px #ccc; max-width: 1000px; margin: 0 auto; }
-    .card h2 { margin-bottom: 20px; color: #1b263b; text-align: center; }
+input[type="text"], select { padding:8px; margin-right:10px; border-radius:5px; border:1px solid #aaa; font-size:14px; }
+.btn { padding:10px 15px; border:none; border-radius:5px; background:#1b263b; color:white; cursor:pointer; font-size:14px; }
+.btn:hover { background:#415a77; }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-
-    table th, table td {
-        border: 1px solid #ddd;
-        padding: 10px;
-        text-align: left;
-    }
-
-    table th {
-        background: #1b263b;
-        color: white;
-    }
-
-    tr:nth-child(even) { background-color: #f2f2f2; }
-
-    tr:hover { background-color: #e0e1dd; }
-
-    input[type="text"], select {
-        padding: 8px;
-        margin-right: 10px;
-        border-radius: 5px;
-        border: 1px solid #aaa;
-        font-size: 14px;
-    }
-
-    .btn {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        background: #1b263b;
-        color: white;
-        cursor: pointer;
-        font-size: 14px;
-    }
-
-    .btn:hover { background: #415a77; }
-
-    @media(max-width: 800px) {
-        .card { padding: 20px; }
-        table { font-size: 12px; }
-        input[type="text"], select { margin-bottom: 10px; width: 100%; }
-    }
+@media(max-width:800px){
+    .card { padding:20px; }
+    table { font-size:12px; }
+    input[type="text"], select { margin-bottom:10px; width:100%; }
+}
 </style>
 </head>
 <body>
 
-<!-- Sidebar -->
 <aside class="sidebar">
     <div class="logo"><h2>INVECEM</h2></div>
     <ul class="menu">
@@ -100,116 +57,96 @@
     </ul>
 </aside>
 
-<!-- Contenido principal -->
 <main class="main">
-    <header class="topbar">
-        <h1 id="tituloModulo">Inventario</h1>
-    </header>
+<header class="topbar">
+    <h1 id="tituloModulo">Inventario</h1>
+</header>
 
-    <section id="contenido">
-        <div class="card">
-            <h2>Inventario de Equipos</h2>
+<section id="contenido">
+<div class="card">
+    <h2>Inventario de Equipos</h2>
 
-            <!-- Filtros -->
-            <div>
-                <input type="text" id="filtroBusqueda" placeholder="Buscar por nombre, serial o usuario">
-                <select id="filtroTipo">
-                    <option value="">Todos los tipos</option>
-                    <option value="PC">PC</option>
-                    <option value="Laptop">Laptop</option>
-                    <option value="Monitor">Monitor</option>
-                    <option value="Impresora">Impresora</option>
-                    <option value="Switch">Switch</option>
-                    <option value="Router">Router</option>
-                    <option value="Ap">AP</option>
-                    <option value="Radios">Radio</option>
-                    <option value="Escaner">Escaner</option>
-                    <option value="Starlink">Starlink</option>
-                    <option value="UPS">UPS</option>
-                </select>
-                <button class="btn" onclick="cargarInventario()">Filtrar</button>
-            </div>
+    <div>
+        <input type="text" id="filtroBusqueda" placeholder="Buscar por nombre, serial o usuario">
+        <select id="filtroTipo">
+            <option value="">Todos los tipos</option>
+            <option value="PC">PC</option>
+            <option value="Laptop">Laptop</option>
+            <option value="Monitor">Monitor</option>
+            <option value="Impresora">Impresora</option>
+            <option value="Switch">Switch</option>
+            <option value="Router">Router</option>
+            <option value="Ap">AP</option>
+            <option value="Radios">Radio</option>
+            <option value="Escaner">Escaner</option>
+            <option value="Starlink">Starlink</option>
+            <option value="UPS">UPS</option>
+        </select>
+        <button class="btn" onclick="cargarInventarios()">Filtrar</button>
+    </div>
 
-            <table id="tablaInventario">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Localidad</th>
-                        <th>Tipo</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Serial</th>
-                        <th>Usuario Responsable</th>
-                        <th>Ubicación</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Datos se cargan aquí -->
-                </tbody>
-            </table>
-        </div>
-    </section>
+    <table id="tablaInventario">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Localidad</th>
+                <th>Tipo</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Serial</th>
+                <th>Usuario Responsable</th>
+                <th>Ubicación</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+</section>
 </main>
 
 <script>
-    async function cargarInventarios() {
-        const filtroBusqueda = document.getElementById('filtroBusqueda').value.toLowerCase();
-        const filtroTipo = document.getElementById('filtroTipo').value;
+async function cargarInventarios() {
+    const filtroBusqueda = document.getElementById('filtroBusqueda').value.trim();
+    const filtroTipo = document.getElementById('filtroTipo').value;
 
-        // LLAMADA CORRECTA
-        const res = await fetch('/api/inventario');
-        const data = await res.json();
+    const params = new URLSearchParams();
+    if(filtroBusqueda) params.append('buscar', filtroBusqueda);
+    if(filtroTipo) params.append('tipo_articulo', filtroTipo);
 
-        if (!data.ok) {
-            console.error("Error desde backend:", data.error);
-            return;
-        }
+    const url = `/api/inventario?${params.toString()}`;
+    const res = await fetch(url);
+    const data = await res.json();
 
-        const equipos = data.equipos;
-
-        // TABLA CORRECTA
-        const tbody = document.querySelector('#tablaInventario tbody');
-        tbody.innerHTML = '';
-
-        let filtrado = equipos;
-
-        // FILTRAR POR TIPO
-        if (filtroTipo) {
-            filtrado = filtrado.filter(e => e.tipo_articulo === filtroTipo);
-        }
-
-        // FILTRAR POR BUSQUEDA
-        if (filtroBusqueda) {
-            filtrado = filtrado.filter(e =>
-                (e.nombre_del_equipo && e.nombre_del_equipo.toLowerCase().includes(filtroBusqueda)) ||
-                (e.serial && e.serial.toLowerCase().includes(filtroBusqueda)) ||
-                (e.usuario_responsable && e.usuario_responsable.toLowerCase().includes(filtroBusqueda))
-            );
-        }
-
-        // AGREGAR FILAS
-        filtrado.forEach(e => {
-            const fila = `
-                <tr>
-                    <td>${e.id}</td>
-                    <td>${e.localidad || ''}</td>
-                    <td>${e.tipo_articulo || ''}</td>
-                    <td>${e.marca || ''}</td>
-                    <td>${e.modelo || ''}</td>
-                    <td>${e.serial || ''}</td>
-                    <td>${e.usuario_responsable || ''}</td>
-                    <td>${e.ubicacion || ''}</td>
-                    <td>${e.status || ''}</td>
-                </tr>
-            `;
-            tbody.innerHTML += fila;
-        });
+    if(!data.ok){
+        console.error("Error backend:", data.error);
+        return;
     }
 
-    // Cargar inventario al iniciar
-    cargarInventarios();
+    const tbody = document.querySelector('#tablaInventario tbody');
+    tbody.innerHTML = '';
+
+    data.equipos.forEach(e => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${e.id}</td>
+                <td>${e.localidad || ''}</td>
+                <td>${e.tipo_articulo || ''}</td>
+                <td>${e.marca || ''}</td>
+                <td>${e.modelo || ''}</td>
+                <td>${e.serial || ''}</td>
+                <td>${e.usuario_responsable || ''}</td>
+                <td>${e.ubicacion || ''}</td>
+                <td>${e.status || ''}</td>
+            </tr>
+        `;
+    });
+}
+
+// Cargar inventario al iniciar
+cargarInventarios();
 </script>
 
 </body>
 </html>
+

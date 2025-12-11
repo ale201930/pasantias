@@ -1,3 +1,6 @@
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");  // 👈 Ajusta la ruta según tu proyecto
+
 const Inventario = sequelize.define("Inventario", {
     localidad: { type: DataTypes.STRING, allowNull: false },
     tipo_articulo: { type: DataTypes.STRING, allowNull: false },
@@ -17,9 +20,9 @@ const Inventario = sequelize.define("Inventario", {
     fecha_de_asignacion: { type: DataTypes.STRING },
     status: { type: DataTypes.STRING }
 }, {
-    tableName: "Inventarios",   // 👈 OBLIGA a usar esta tabla
-    freezeTableName: true       // 👈 NO crea plurales
+    tableName: "Inventarios",
+    freezeTableName: true
 });
 
-
+module.exports = Inventario;
 

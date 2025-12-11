@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Inventario = require("../models/inventario");
+const { Op, fn, col, where } = require("sequelize");
 
 // POST /api/inventario/registrar
 router.post("/registrar", async (req, res) => {
@@ -34,10 +35,35 @@ router.post("/registrar", async (req, res) => {
     }
 });
 
-// GET /api/inventario
+// GET /api/inventario (con filtros y búsqueda)
 router.get("/", async (req, res) => {
     try {
+        const { buscar, tipo_articulo, localidad, marca, modelo, serial, usuario_responsable, status } = req.query;
+
+        // Filtros exactos
+        const filtros = {};
+        if (tipo_articulo) filtros.tipo_articulo = tipo_articulo;
+        if (localidad) filtros.localidad = localidad;
+        if (marca) filtros.marca = marca;
+        if (modelo) filtros.modelo = modelo;
+        if (serial) filtros.serial = serial;
+        if (usuario_responsable) filtros.usuario_responsable = usuario_responsable;
+        if (status) filtros.status = status;
+
+        // Búsqueda general insensible a mayúsculas
+        if (buscar) {
+            const b = `%${buscar.toLowerCase()}%`;
+            filtros[Op.or] = [
+                where(fn('lower', col('nombre_del_equipo')), { [Op.like]: b }),
+                where(fn('lower', col('serial')), { [Op.like]: b }),
+                where(fn('lower', col('usuario_responsable')), { [Op.like]: b }),
+                where(fn('lower', col('marca')), { [Op.like]: b }),
+                where(fn('lower', col('modelo')), { [Op.like]: b })
+            ];
+        }
+
         const equipos = await Inventario.findAll({
+            where: filtros,
             order: [["id", "DESC"]]
         });
 
