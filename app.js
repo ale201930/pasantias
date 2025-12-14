@@ -1,46 +1,32 @@
 const express = require("express");
-const app = express();
 const path = require("path");
 const bcrypt = require("bcrypt");
+const cors = require("cors"); // Por si frontend y backend no corren en el mismo origen
 
 const sequelize = require("./config/database");
 const User = require("./models/user");
 
-// 🔹 SINCRONIZAR BD Y CREAR ADMIN POR DEFECTO
-sequelize.sync().then(async () => {
-    const existeAdmin = await User.findOne({ where: { usuario: "admin" } });
+const app = express();
 
-    if (!existeAdmin) {
-        await User.create({
-            usuario: "admin",
-            password: "admin123",  // El modelo la encripta automáticamente
-            rol: "admin"
-        });
+// 🔹 MIDDLEWARES
+app.use(cors()); // Permite peticiones desde otros orígenes si se necesita
+app.use(express.json()); // Para recibir JSON
+app.use(express.urlencoded({ extended: true })); // Para recibir formularios
+app.use(express.static(path.join(__dirname, "public"))); // Archivos estáticos
 
-        console.log("Usuario admin creado por defecto");
-    }
-
-    console.log("BD sincronizada");
-});
-
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
-
-// Rutas API
+// 🔹 RUTAS API
 const inventarioRoutes = require("./routes/inventario");
 app.use("/api/inventario", inventarioRoutes);
 
-const usuarioRoutes = require("./routes/user");   // Debe existir /routes/user.js
+const usuarioRoutes = require("./routes/user"); // Asegúrate que exista
 app.use("/api/user", usuarioRoutes);
 
-// Página principal -> Login
+// 🔹 PAGINA PRINCIPAL -> LOGIN
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "login.html"));
 });
 
-// 🔹 RUTA DE LOGIN REAL
+// 🔹 RUTA DE LOGIN
 app.post("/login", async (req, res) => {
     const { usuario, password } = req.body;
 
@@ -65,9 +51,25 @@ app.post("/login", async (req, res) => {
     }
 });
 
-// Servidor
-app.listen(3000, () => {
-    console.log("Servidor corriendo en http://localhost:3000");
+// 🔹 SINCRONIZAR BD Y CREAR ADMIN POR DEFECTO
+sequelize.sync().then(async () => {
+    console.log("Base de datos sincronizada");
+
+    const existeAdmin = await User.findOne({ where: { usuario: "admin" } });
+    if (!existeAdmin) {
+        await User.create({
+            usuario: "admin",
+            password: "admin123", // Se encripta automáticamente en el modelo
+            rol: "admin"
+        });
+        console.log("Usuario admin creado por defecto");
+    }
+});
+
+// 🔹 SERVIDOR
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
 

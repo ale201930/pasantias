@@ -1,7 +1,12 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");  // 👈 Ajusta la ruta según tu proyecto
+const sequelize = require("../config/database");
 
 const Inventario = sequelize.define("Inventario", {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     localidad: { type: DataTypes.STRING, allowNull: false },
     tipo_articulo: { type: DataTypes.STRING, allowNull: false },
     marca: { type: DataTypes.STRING },
@@ -21,7 +26,8 @@ const Inventario = sequelize.define("Inventario", {
     status: { type: DataTypes.STRING }
 }, {
     tableName: "Inventarios",
-    freezeTableName: true
+    freezeTableName: true,
+    timestamps: false
 });
 
 module.exports = Inventario;
