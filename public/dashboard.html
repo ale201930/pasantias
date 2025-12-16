@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - INVECEM</title>
+
+<style>
+/* RESET Y VARIABLES */
+:root {
+    --primary: #1b263b;
+    --secondary: #415a77;
+    --accent: #e0e1dd;
+    --danger: #a4161a;
+    --bg: #f4f6f9;
+    --card-bg: #ffffff;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", system-ui, Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background: linear-gradient(135deg, #f4f6f9, #eef1f6);
+    color: var(--text-dark);
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, #1b263b, #24344f);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    box-shadow: 4px 0 20px rgba(0,0,0,.15);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 35px;
+}
+.logo h2 {
+    font-size: 26px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.menu {
+    list-style: none;
+}
+.menu li {
+    padding: 15px 30px;
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-left: 4px solid transparent;
+    transition: all .3s ease;
+    color: #e5e7eb;
+}
+.menu li:hover {
+    background: rgba(255,255,255,.08);
+    border-left: 4px solid var(--accent);
+    color: #fff;
+}
+.menu .active {
+    background: rgba(255,255,255,.15);
+    border-left: 4px solid var(--accent);
+    font-weight: 600;
+}
+
+.logout {
+    margin-top: auto;
+    background: linear-gradient(135deg, #a4161a, #c1121f) !important;
+    border-left: 4px solid #fff !important;
+    color: #fff !important;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* TOPBAR */
+.topbar {
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(8px);
+    padding: 22px 35px;
+    border-bottom: 1px solid #e5e7eb;
+}
+.topbar h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* CONTENIDO */
+#contenido {
+    padding: 35px;
+}
+
+/* TARJETAS */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px,1fr));
+    gap: 25px;
+    margin-bottom: 45px;
+}
+
+.stat {
+    background: linear-gradient(180deg, #ffffff, #f9fafb);
+    padding: 28px 20px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.08);
+    text-align: center;
+    transition: all .3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+}
+
+.stat:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0,0,0,.15);
+}
+
+.stat h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: .4px;
+}
+
+.stat p {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* GRAFICA */
+.grafica-box {
+    background: linear-gradient(180deg, #ffffff, #f9fafb);
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+    max-width: 900px;
+    margin: auto;
+}
+
+/* RESPONSIVE */
+@media(max-width: 900px) {
+    .sidebar {
+        width: 220px;
+    }
+    .topbar {
+        padding: 20px;
+    }
+    #contenido {
+        padding: 25px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div class="logo"><h2>INVECEM</h2></div>
+    <ul class="menu">
+        <li class="active">📊 Dashboard</li>
+        <li onclick="location.href='registro.html'">📝 Registro</li>
+        <li onclick="location.href='inventario.html'">📦 Inventario</li>
+        <li onclick="location.href='usuarios.html'">👥 Usuarios</li>
+        <li class="logout" onclick="cerrarSesion()">🔒 Cerrar sesión</li>
+    </ul>
+</aside>
+
+<main class="main">
+<header class="topbar">
+    <h1>Dashboard de Inventario</h1>
+</header>
+
+<section id="contenido">
+
+    <div class="stats">
+        <div class="stat"><h3>Laptops</h3><p id="laptop">0</p></div>
+        <div class="stat"><h3>PC Escritorio</h3><p id="pc">0</p></div>
+        <div class="stat"><h3>Monitores</h3><p id="monitor">0</p></div>
+        <div class="stat"><h3>Impresoras</h3><p id="impresora">0</p></div>
+        <div class="stat"><h3>Switches</h3><p id="switch">0</p></div>
+        <div class="stat"><h3>Routers</h3><p id="router">0</p></div>
+        <div class="stat"><h3>AP</h3><p id="ap">0</p></div>
+        <div class="stat"><h3>Radios</h3><p id="radio">0</p></div>
+        <div class="stat"><h3>Escáner</h3><p id="escaner">0</p></div>
+        <div class="stat"><h3>Starlink</h3><p id="starlink">0</p></div>
+        <div class="stat"><h3>UPS</h3><p id="ups">0</p></div>
+    </div>
+
+    <div class="grafica-box">
+        <canvas id="graficaEstados"></canvas>
+    </div>
+
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+const socket = io();
+let grafica = null;
+
+socket.on("actualizar-inventario", cargarEstadisticas);
+
+async function cargarEstadisticas(){
+    const res = await fetch("/api/inventario");
+    const data = await res.json();
+    if(!data.ok) return;
+
+    const totales = {
+        laptop:0, pc:0, monitor:0, impresora:0, switch:0,
+        router:0, ap:0, radio:0, escaner:0, starlink:0, ups:0
+    };
+
+    data.equipos.forEach(e=>{
+        const tipo = (e.tipo_articulo || "").toLowerCase();
+        const estado = (e.status || "").toLowerCase();
+
+        if(tipo==="laptop" && estado==="activo") totales.laptop++;
+        if(tipo==="pc" && estado==="activo") totales.pc++;
+        if(tipo==="monitor") totales.monitor++;
+        if(tipo==="impresora") totales.impresora++;
+        if(tipo==="switch") totales.switch++;
+        if(tipo==="router") totales.router++;
+        if(tipo==="ap") totales.ap++;
+        if(tipo==="radios") totales.radio++;
+        if(tipo==="escaner") totales.escaner++;
+        if(tipo==="starlink") totales.starlink++;
+        if(tipo==="ups") totales.ups++;
+    });
+
+    Object.keys(totales).forEach(id=>{
+        document.getElementById(id).textContent = totales[id];
+    });
+
+    const ctx = document.getElementById("graficaEstados");
+    const labels = Object.keys(totales).map(t=>t.toUpperCase());
+    const values = Object.values(totales);
+
+    if(grafica){
+        grafica.data.labels = labels;
+        grafica.data.datasets[0].data = values;
+        grafica.update();
+    } else {
+        grafica = new Chart(ctx,{
+            type:"doughnut",
+            data:{
+                labels,
+                datasets:[{ data:values }]
+            },
+            options:{ plugins:{ legend:{ position:"bottom" } } }
+        });
+    }
+}
+
+cargarEstadisticas();
+</script>
+
+</body>
+</html>
+
