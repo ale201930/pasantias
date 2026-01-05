@@ -52,7 +52,6 @@ form input:focus, form select:focus { outline: none; border-color: #415a77; }
         <li onclick="window.location.href='dashboard.html'">📊 Estadisticas</li>
         <li class="active" onclick="window.location.href='registro.html'">📝 Registro</li>
         <li onclick="window.location.href='inventario.html'">📦 Inventario</li>
-        <li onclick="window.location.href='usuarios.html'">👥 Usuarios</li>
         <li class="logout" onclick="cerrarSesion()">🔒 Cerrar sesión</li>
     </ul>
 </aside>
@@ -106,6 +105,12 @@ form input:focus, form select:focus { outline: none; border-color: #415a77; }
 </main>
 
 <script>
+function cerrarSesion(){
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
 /* ===== DETECTAR MODO EDICIÓN ===== */
 const params = new URLSearchParams(window.location.search);
 const idEquipo = params.get("id");

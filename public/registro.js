@@ -216,3 +216,14 @@ document.addEventListener("submit", async (e) => {
         msg.textContent = "Error: " + data.error;
     }
 });
+
+
+function cerrarSesion(){
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+<li class="logout" onclick="cerrarSesion()">🔒 Cerrar sesión</li>
+document.addEventListener("DOMContentLoaded", () => {
+    cargarModulo("dashboard");
+});

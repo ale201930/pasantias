@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard - INVECEM</title>
+<title>Estadisticas- INVECEM</title>
 
 <style>
 /* RESET Y VARIABLES */
@@ -190,17 +190,16 @@ body {
 <aside class="sidebar">
     <div class="logo"><h2>INVECEM</h2></div>
     <ul class="menu">
-        <li class="active">📊 Dashboard</li>
+        <li class="active">📊 Estadisticas</li>
         <li onclick="location.href='registro.html'">📝 Registro</li>
         <li onclick="location.href='inventario.html'">📦 Inventario</li>
-        <li onclick="location.href='usuarios.html'">👥 Usuarios</li>
         <li class="logout" onclick="cerrarSesion()">🔒 Cerrar sesión</li>
     </ul>
 </aside>
 
 <main class="main">
 <header class="topbar">
-    <h1>Dashboard de Inventario</h1>
+    <h1>Estadisticas del Inventario</h1>
 </header>
 
 <section id="contenido">
@@ -287,6 +286,16 @@ async function cargarEstadisticas(){
 }
 
 cargarEstadisticas();
+function cerrarSesion(){
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
+if (!localStorage.getItem("token")) {
+    window.location.href = "login.html";
+}
+
 </script>
 
 </body>

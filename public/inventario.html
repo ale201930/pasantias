@@ -62,7 +62,6 @@ input[type="text"], select { padding:8px; margin-right:10px; border-radius:5px; 
         <li onclick="window.location.href='dashboard.html'">📊 Estadisticas</li>
         <li onclick="window.location.href='registro.html'">📝 Registro</li>
         <li class="active" onclick="window.location.href='inventario.html'">📦 Inventario</li>
-        <li onclick="window.location.href='usuarios.html'">👥 Usuarios</li>
         <li class="logout" onclick="cerrarSesion()">🔒 Cerrar sesión</li>
     </ul>
 </aside>
@@ -135,6 +134,11 @@ input[type="text"], select { padding:8px; margin-right:10px; border-radius:5px; 
 </main>
 
 <script>
+    function cerrarSesion(){
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
 // Mostrar "No aplica" si el valor está vacío
 function mostrar(valor) { return valor ? valor : '<span class="na">No aplica</span>'; }
 

@@ -160,25 +160,80 @@ form select:focus {
     <li class="active" onclick="window.location.href='dashboard.html'">📊 Estadisticas</li>
     <li onclick="window.location.href='registro.html'">📝 Registro</li>
     <li onclick="window.location.href='inventario.html'">📦 Inventario</li>
-    <li onclick="window.location.href='usuarios.html'">👥 Usuarios</li>
     <li class="logout" onclick="cerrarSesion()">🔒 Cerrar sesión</li>
 </ul>
+
 
     </aside>
 
     <!-- Contenido principal -->
-    <main class="main">
-        <header class="topbar">
-            <h1 id="tituloModulo">Inicio</h1>
-        </header>
+<main class="main">
+    <header class="topbar">
+        <h1 id="tituloModulo">Inicio</h1>
+    </header>
 
-        <section id="contenido">
-            <!-- Aquí se cargan los módulos dinámicamente -->
+    <section id="contenido">
+        <!-- Banner tipo vidrio con texto -->
+        <div class="banner-vidrio">
             <h2>Bienvenido Administrador</h2>
             <p>Seleccione una opción del menú para comenzar.</p>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
+
+
+<style>
+/* Contenedor principal */
+#contenido {
+    padding: 0;              
+    margin: 0;             
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;          
+}
+
+/* Banner tipo vidrio */
+.banner-vidrio {
+    width: 100%;
+    height: 100%;            
+    max-width: 100%;         
+    background-color: rgba(255,255,255,0.15);
+    background-image: url("img/fondoA.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    backdrop-filter: blur(10px);
+    border-radius: 0;        
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    box-shadow: none;        
+    padding: 20px;
+}
+
+
+
+</style>
+
+
+    
 
     <script src="registro.js"></script>
+    
 </body>
 </html>
+
+<script>
+function cerrarSesion() {
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+</script>
+</body>
+</html>
+
