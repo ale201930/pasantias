@@ -40,6 +40,11 @@ El sistema está diseñado para ser intuitivo, permitiendo su uso por parte del 
 
 ---
 
+## Tecnologías Utilizadas - 
+**Frontend:** HTML, CSS, JavaScript - 
+**Backend:** Node.js, Express.js - 
+**Base de Datos:** MySQL / PostgreSQL / SQLite (según configuración)
+
 ## Estructura del Proyecto
 El proyecto está organizado de la siguiente manera:
 ├── config/ Configuración de la base de datos
