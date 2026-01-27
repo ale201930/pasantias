@@ -27,13 +27,14 @@ Para el correcto funcionamiento del sistema es necesario contar con los siguient
 ---
 
 ## Instalación y Ejecución
-El sistema se instala clonando el repositorio desde GitHub, instalando las dependencias necesarias mediante npm y ejecutando el servidor con Node.js.  
 
-Clonación del repositorio y configuración de Git
-Dirígete a la carpeta donde deseas clonar el proyecto.
-Haz clic derecho y selecciona “Open Git Bash here”.
+El sistema se instala clonando el repositorio desde GitHub, instalando las dependencias necesarias mediante npm y ejecutando el servidor con Node.js.
 
-Ejecuta los siguientes comandos:
+### Clonación del repositorio y configuración de Git
+
+Dirígete a la carpeta donde deseas clonar el proyecto, haz clic derecho y selecciona **Open Git Bash here**, luego ejecuta los siguientes comandos:
+
+```bash
 git config --global user.name "nombre_de_usuario"
 git config --global user.email "almagueralexander839@gmail.com"
 git init
@@ -41,6 +42,7 @@ git checkout -b main
 git remote add origin https://github.com/ale201930/pasantias.git
 git pull origin main
 git push --set-upstream origin main
+
 
 Subir cambios al repositorio
 Después de realizar cambios en el sistema, utiliza los siguientes comandos para subirlos al repositorio:
