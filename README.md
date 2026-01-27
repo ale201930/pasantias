@@ -28,8 +28,48 @@ Para el correcto funcionamiento del sistema es necesario contar con los siguient
 
 ## Instalación y Ejecución
 El sistema se instala clonando el repositorio desde GitHub, instalando las dependencias necesarias mediante npm y ejecutando el servidor con Node.js.  
-Una vez iniciado el servidor, el sistema se puede acceder desde el navegador web a través de `http://localhost:3000`.
 
+Clonación del repositorio y configuración de Git
+Dirígete a la carpeta donde deseas clonar el proyecto.
+Haz clic derecho y selecciona “Open Git Bash here”.
+
+Ejecuta los siguientes comandos:
+git config --global user.name "nombre_de_usuario"
+git config --global user.email "almagueralexander839@gmail.com"
+git init
+git checkout -b main
+git remote add origin https://github.com/ale201930/pasantias.git
+git pull origin main
+git push --set-upstream origin main
+
+Subir cambios al repositorio
+Después de realizar cambios en el sistema, utiliza los siguientes comandos para subirlos al repositorio:
+git add .
+git commit -m "Comentario sobre los cambios realizados"
+git push
+
+Actualizar cambios de otros usuarios
+Si otro usuario realizó cambios y deseas obtenerlos, ejecuta:
+git pull
+
+Configuración de npm start (Windows)
+Antes de iniciar el servidor, abre Windows PowerShell y ejecuta el siguiente comando:
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+Cuando el sistema lo solicite, selecciona la opción (S).
+
+Ejecución del sistema
+Una vez iniciado el servidor, el sistema estará disponible en el navegador web en la siguiente dirección: http://localhost:3000
+
+Extensiones recomendadas para Visual Studio Code
+Se recomienda instalar las siguientes extensiones:
+
+Database Client JDBC
+Live Server
+MySQL
+MySQL Syntax
+SQLite3 Editor
+SQLTools
+SQLTools MySQL/MariaDB/TiDB
 ---
 
 ## Uso del Sistema
